@@ -23,8 +23,8 @@ seaborn.set_style('whitegrid')
 # In[2]:
 
 
-male = NormalDistribution.from_samples([ 6.0, 5.92, 5.58, 5.92, 6.08, 5.83 ])
-female = NormalDistribution.from_samples([ 5.0, 5.5, 5.42, 5.75, 5.17, 5.0 ])
+male = NormalDistribution.from_samples([182.88  , 180.4416, 170.0784, 180.4416, 185.3184, 177.6984])
+female = NormalDistribution.from_samples([152.4   , 167.64  , 165.2016, 175.26  , 157.5816, 152.4   ])
 
 
 # Let's check on the parameters for our male and female height distributions.
@@ -57,16 +57,19 @@ clf = NaiveBayes([ male, female ])
 # In[5]:
 
 
-data = np.array([ 5.0, 6.0, 4.92, 5.5 ])
+data = np.array([ 152   , 182  , 150, 173 ])
 
-for sample, probability in zip( data, clf.predict_proba(data) ):
-    print("Height {:5.3}, {:5.3}% chance male and {:5.3}% chance female".format( sample, 100*probability[0], 100*probability[1]))
+for sample in data:
+    probability = clf.predict_proba(sample)
+    print("Height {:5.3f}, {:5.3f}% chance male and {:5.3f}% chance female".format( sample, 100*probability[0,0], 100*probability[0,1]))
 
 
 # In[6]:
 
+data = np.array([ 152   , 182  , 150, 168 ])
 
-for sample, result in zip( data, clf.predict( data )):
+for sample in data:
+    result = clf.predict(sample)[0]
     print("Person with height {} is {}.".format( sample, "female" if result else "male" ))
 
 
@@ -74,8 +77,7 @@ for sample, result in zip( data, clf.predict( data )):
 
 # In[7]:
 
-
-X = np.array([ 180, 190, 170, 165, 100, 150, 130, 150 ])
+X = np.array([ [90], [95], [85], [82.5], [50], [75], [65], [75] ])
 y = np.array([ 0, 0, 0, 0, 1, 1, 1, 1 ])
 
 clf.fit( X, y )
@@ -86,15 +88,15 @@ clf.fit( X, y )
 # In[8]:
 
 
-data = np.array([ 130, 200, 100, 162, 145 ])
+data = np.array([ 65. , 100. ,  50. ,  81. ,  72.5])
 
 
 # Now let's enter it into our classifier.
 
 # In[9]:
 
-
-for sample, result in zip( data, clf.predict( data )):
+for sample in data:
+    result = clf.predict(sample)[0]
     print("Person with weight {} is {}.".format( sample, "female" if result else "male" ))
 
 
